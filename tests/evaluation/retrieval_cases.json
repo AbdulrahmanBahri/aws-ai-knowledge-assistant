@@ -1,0 +1,28 @@
+[
+  {
+    "id": "leave-carryover",
+    "question": "Can I carry unused vacation into next year?",
+    "expected_sources": [
+      "annual-leave-policy"
+    ]
+  },
+  {
+    "id": "remote-work",
+    "question": "How many days can I work remotely?",
+    "expected_sources": [
+      "remote-work-policy"
+    ]
+  },
+  {
+    "id": "insurance",
+    "question": "What medical insurance does the company provide?",
+    "expected_sources": [
+      "employee-benefits"
+    ]
+  },
+  {
+    "id": "unknown-policy",
+    "question": "What is the company's policy on private jet travel?",
+    "expected_sources": []
+  }
+]
