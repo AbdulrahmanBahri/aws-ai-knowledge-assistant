@@ -1,10 +1,14 @@
 from aws_cdk import (
+    CfnOutput,
+    Duration,
     RemovalPolicy,
     Stack,
     aws_dynamodb as dynamodb,
+    aws_iam as iam,
+    aws_lambda as lambda_,
     aws_s3 as s3,
+    aws_s3_notifications as s3n,
     aws_s3vectors as s3vectors,
-    CfnOutput,
 )
 from constructs import Construct
 
@@ -66,8 +70,14 @@ class StorageStack(Stack):
             "KnowledgeVectorBucket",
             vector_bucket_name=vector_bucket_name,
             tags=[
-                {"key": "Project", "value": "AIKnowledgeAssistant"},
-                {"key": "Environment", "value": "dev"},
+                {
+                    "key": "Project",
+                    "value": "AIKnowledgeAssistant",
+                },
+                {
+                    "key": "Environment",
+                    "value": "dev",
+                },
             ],
         )
 
@@ -98,6 +108,93 @@ class StorageStack(Stack):
         )
 
         # ---------------------------------------------------------
+        # DOCUMENT INGESTION LAMBDA
+        # ---------------------------------------------------------
+
+        self.ingestion_function = lambda_.Function(
+            self,
+            "DocumentIngestionFunction",
+            runtime=lambda_.Runtime.PYTHON_3_13,
+            handler="handler.lambda_handler",
+            code=lambda_.Code.from_asset("lambda_package"),
+            environment={
+                "DOCUMENT_REGISTRY_TABLE": (
+                    self.document_registry.table_name
+                ),
+                "VECTOR_BUCKET_NAME": vector_bucket_name,
+                "VECTOR_INDEX_NAME": "knowledge-index",
+            },
+            timeout=Duration.seconds(60),
+        )
+
+        # ---------------------------------------------------------
+        # LAMBDA PERMISSIONS
+        # ---------------------------------------------------------
+
+        # Allow reading and writing document registry records.
+        # The handler needs GetItem, UpdateItem, Scan, and
+        # DeleteItem in addition to its existing write operations.
+        self.document_registry.grant_read_write_data(
+            self.ingestion_function
+        )
+
+        # Allow the Lambda to read uploaded documents.
+        self.document_bucket.grant_read(
+            self.ingestion_function
+        )
+
+        # Allow writing vectors to the configured index.
+        self.ingestion_function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "s3vectors:PutVectors",
+                ],
+                resources=[
+                    self.vector_index.attr_index_arn,
+                ],
+            )
+        )
+
+        # Allow deleting obsolete vectors from the same index.
+        self.ingestion_function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "s3vectors:DeleteVectors",
+                ],
+                resources=[
+                    self.vector_index.attr_index_arn,
+                ],
+            )
+        )
+
+        # Allow invocation of Titan Text Embeddings V2.
+        self.ingestion_function.add_to_role_policy(
+            iam.PolicyStatement(
+                actions=[
+                    "bedrock:InvokeModel",
+                ],
+                resources=[
+                    (
+                        f"arn:{self.partition}:bedrock:"
+                        f"{self.region}::foundation-model/"
+                        "amazon.titan-embed-text-v2:0"
+                    ),
+                ],
+            )
+        )
+
+        # ---------------------------------------------------------
+        # S3 EVENT NOTIFICATION
+        # ---------------------------------------------------------
+
+        self.document_bucket.add_event_notification(
+            s3.EventType.OBJECT_CREATED,
+            s3n.LambdaDestination(
+                self.ingestion_function
+            ),
+        )
+
+        # ---------------------------------------------------------
         # OUTPUTS
         # ---------------------------------------------------------
 
@@ -105,26 +202,34 @@ class StorageStack(Stack):
             self,
             "DocumentBucketName",
             value=self.document_bucket.bucket_name,
-            description="S3 bucket containing uploaded documents",
+            description=(
+                "S3 bucket containing uploaded documents"
+            ),
         )
 
         CfnOutput(
             self,
             "DocumentRegistryTableName",
             value=self.document_registry.table_name,
-            description="DynamoDB table tracking document lifecycle",
+            description=(
+                "DynamoDB table tracking document lifecycle"
+            ),
         )
 
         CfnOutput(
             self,
             "VectorBucketName",
             value=self.vector_bucket.ref,
-            description="S3 Vector bucket containing knowledge vectors",
+            description=(
+                "S3 Vectors bucket containing knowledge vectors"
+            ),
         )
 
         CfnOutput(
             self,
             "VectorIndexName",
             value=self.vector_index.ref,
-            description="S3 Vector index used for semantic search",
+            description=(
+                "S3 Vectors index used for semantic search"
+            ),
         )

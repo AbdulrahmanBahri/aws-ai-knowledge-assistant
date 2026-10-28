@@ -1,28 +1,63 @@
+
 [
   {
-    "id": "leave-carryover",
-    "question": "Can I carry unused vacation into next year?",
-    "expected_sources": [
-      "annual-leave-policy"
-    ]
+    "id": "remote_work",
+    "question": "How many days per week can employees work remotely?",
+    "answerable": true,
+    "expected_terms": ["two days", "manager approval"]
   },
   {
-    "id": "remote-work",
-    "question": "How many days can I work remotely?",
-    "expected_sources": [
-      "remote-work-policy"
-    ]
+    "id": "health_insurance",
+    "question": "What health insurance benefit do employees receive?",
+    "answerable": true,
+    "expected_terms": ["health insurance"]
   },
   {
-    "id": "insurance",
-    "question": "What medical insurance does the company provide?",
-    "expected_sources": [
-      "employee-benefits"
-    ]
+    "id": "annual_leave_process",
+    "question": "How do employees request annual leave?",
+    "answerable": true,
+    "expected_terms": ["annual leave", "manager"]
   },
   {
-    "id": "unknown-policy",
-    "question": "What is the company's policy on private jet travel?",
-    "expected_sources": []
+    "id": "leave_carryover",
+    "question": "Can unused annual leave be carried over to the next year?",
+    "answerable": false,
+    "expected_terms": ["carry over", "carryover", "unused leave"]
+  },
+  {
+    "id": "private_jet",
+    "question": "Does the company pay for private jet travel?",
+    "answerable": false,
+    "expected_terms": ["private jet", "travel reimbursement"]
+  },
+  {
+    "id": "remote_approval",
+    "question": "Do I need my manager's permission to work from home?",
+    "answerable": true,
+    "expected_terms": ["manager approval"]
+  },
+  {
+    "id": "remote_four_days",
+    "question": "Can I work remotely four days every week under the stated policy?",
+    "answerable": true,
+    "expected_terms": ["two days", "manager approval"]
+  },
+  {
+    "id": "insurance_family",
+    "question": "Does the company's health insurance cover employees' family members?",
+    "answerable": false,
+    "expected_terms": ["family coverage", "dependents"]
+  },
+  {
+    "id": "sick_leave",
+    "question": "How many paid sick days do employees receive?",
+    "answerable": false,
+    "expected_terms": ["sick leave", "sick days"]
+  },
+  {
+    "id": "remote_location",
+    "question": "Can employees work remotely from another country?",
+    "answerable": false,
+    "expected_terms": ["another country", "international remote work"]
   }
 ]

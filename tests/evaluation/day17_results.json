@@ -1,0 +1,162 @@
+[
+  {
+    "id": "remote_work",
+    "question": "How many days per week can employees work remotely?",
+    "expected_answerable": true,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.29312753677368164,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "RELEVANT"
+  },
+  {
+    "id": "health_insurance",
+    "question": "What health insurance benefit do employees receive?",
+    "expected_answerable": true,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.6844313740730286,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "IRRELEVANT"
+  },
+  {
+    "id": "annual_leave_process",
+    "question": "How do employees request annual leave?",
+    "expected_answerable": true,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.5746594071388245,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "RELEVANT"
+  },
+  {
+    "id": "leave_carryover",
+    "question": "Can unused annual leave be carried over to the next year?",
+    "expected_answerable": false,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.8240516781806946,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "IRRELEVANT"
+  },
+  {
+    "id": "private_jet",
+    "question": "Does the company pay for private jet travel?",
+    "expected_answerable": false,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.8164457678794861,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "IRRELEVANT"
+  },
+  {
+    "id": "remote_approval",
+    "question": "Do I need my manager's permission to work from home?",
+    "expected_answerable": true,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.544352650642395,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "RELEVANT"
+  },
+  {
+    "id": "remote_four_days",
+    "question": "Can I work remotely four days every week under the stated policy?",
+    "expected_answerable": true,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.414161741733551,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "RELEVANT"
+  },
+  {
+    "id": "insurance_family",
+    "question": "Does the company's health insurance cover employees' family members?",
+    "expected_answerable": false,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.7222833633422852,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "REVIEW"
+  },
+  {
+    "id": "sick_leave",
+    "question": "How many paid sick days do employees receive?",
+    "expected_answerable": false,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.7108731269836426,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "IRRELEVANT"
+  },
+  {
+    "id": "remote_location",
+    "question": "Can employees work remotely from another country?",
+    "expected_answerable": false,
+    "retrieved_count": 1,
+    "evidence": [
+      {
+        "rank": 1,
+        "chunk_id": "1fe39e98-417d-4a5f-841c-9fd2fe68dc69:v1:chunk-0001",
+        "source": "day12-test.txt",
+        "distance": 0.4904974699020386,
+        "text": "Employees may work remotely up to two days per week with manager approval.\r\n\r\nEmployees receive health insurance through the company.\r\n\r\nEmployees must request annual leave through their manager."
+      }
+    ],
+    "manual_judgment": "REVIEW"
+  }
+]
