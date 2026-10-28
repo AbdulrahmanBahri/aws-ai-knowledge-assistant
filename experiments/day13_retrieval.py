@@ -31,43 +31,50 @@ QUESTIONS = [
         "id": "remote_work",
         "question": "How many days per week can staff work remotely?",
         "expected_source": "remote_work_policy.txt",
+        "expected_evidence": "up to two days per week",
         "answerable": True,
     },
     {
         "id": "health_insurance",
         "question": "Does the company cover employees' health insurance?",
         "expected_source": "employee_benefits_policy.txt",
+        "expected_evidence": "employees receive health insurance through the company",
         "answerable": True,
     },
     {
         "id": "annual_leave",
-        "question": "Who approves annual leave requests?",
+        "question": "Who should employees submit annual leave requests through?",
         "expected_source": "annual_leave_policy.txt",
+        "expected_evidence": "request annual leave through their manager",
         "answerable": True,
     },
     {
         "id": "family_coverage",
         "question": "Are employees' dependents covered by health insurance?",
         "expected_source": None,
+        "expected_evidence": None,
         "answerable": False,
     },
     {
         "id": "leave_carryover",
         "question": "Can unused annual leave be carried over?",
         "expected_source": None,
+        "expected_evidence": None,
         "answerable": False,
     },
     {
         "id": "international_remote_work",
         "question": "Can I work remotely from another country?",
-        "expected_source": None,
+        "expected_source": "international_remote_work_policy.txt",
+        "expected_evidence": "international remote work requires explicit written approval",
         "answerable": False,
     },
     {
-       "id": "international_remote_work_approval",
-       "question": "What approval is required for international remote work?",
-       "expected_source": "day21-lifecycle-test-new.txt",
-       "answerable": True,
+        "id": "international_remote_work_approval",
+        "question": "What approval is required for international remote work?",
+        "expected_source": "international_remote_work_policy.txt",
+        "expected_evidence": "international remote work requires explicit written approval",
+        "answerable": True,
     },
 ]
 
@@ -120,21 +127,14 @@ def retrieve_chunks(question: str, top_k: int = TOP_K) -> list[dict]:
 
 
 def evaluate_question(case: dict) -> dict:
-    """Retrieve evidence and report basic source-matching results."""
+    """Retrieve evidence and check the expected source and evidence."""
 
     question = case["question"]
     matches = retrieve_chunks(question)
-    expected_evidence_found = any(
-      match.get("source") == case["expected_source"]
-      and "international remote work requires explicit written approval"
-      in (match.get("text") or "").lower()
-      for match in matches
-    )
 
     expected_source = case["expected_source"]
+    expected_evidence = case.get("expected_evidence")
 
-    # Source matching is a useful first check, not a complete
-    # judgment of whether the evidence actually answers the question.
     expected_source_found = (
         expected_source is not None
         and any(
@@ -144,18 +144,27 @@ def evaluate_question(case: dict) -> dict:
         )
     )
 
-    result = {
+    expected_evidence_found = (
+        expected_evidence is not None
+        and any(
+            (
+                match.get("text") or ""
+            ).lower().find(expected_evidence.lower()) >= 0
+            for match in matches
+        )
+    )
+
+    return {
         "id": case["id"],
         "question": question,
         "answerable": case["answerable"],
         "expected_source": expected_source,
+        "expected_evidence": expected_evidence,
         "expected_source_found": expected_source_found,
+        "expected_evidence_found": expected_evidence_found,
         "retrieved_count": len(matches),
         "matches": matches,
-        "expected_evidence_found": expected_evidence_found,
     }
-
-    return result
 
 
 def main():

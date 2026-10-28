@@ -194,6 +194,13 @@ class StorageStack(Stack):
             ),
         )
 
+        self.document_bucket.add_event_notification(
+           s3.EventType.OBJECT_REMOVED_DELETE_MARKER_CREATED,
+           s3n.LambdaDestination(
+              self.ingestion_function
+           ),
+        )
+
         # ---------------------------------------------------------
         # OUTPUTS
         # ---------------------------------------------------------

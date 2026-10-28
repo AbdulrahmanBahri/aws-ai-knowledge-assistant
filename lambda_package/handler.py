@@ -3,6 +3,7 @@ import json
 import os
 from datetime import datetime, timezone
 from urllib.parse import unquote_plus
+from botocore.exceptions import ClientError
 
 import boto3
 from boto3.dynamodb.conditions import Attr
@@ -433,6 +434,81 @@ def process_document(bucket_name, object_key):
 
 
 # ---------------------------------------------------------
+
+def delete_document(bucket_name, object_key):
+    """
+    Remove indexed content when an S3 delete marker
+    makes the document unavailable.
+
+    If the document has already been uploaded again,
+    leave its registry entry and vectors untouched.
+    """
+
+    document_id = make_document_id(
+        bucket_name,
+        object_key,
+    )
+
+    # S3 notifications may arrive out of order.
+    # If the current object exists again, do not clean it up.
+    try:
+        s3.head_object(
+            Bucket=bucket_name,
+            Key=object_key,
+        )
+
+        print(
+            "Skipping deletion cleanup because the "
+            f"object exists again: {object_key}"
+        )
+        return
+
+    except ClientError as exc:
+        error_code = exc.response.get(
+            "Error", {}
+        ).get("Code", "")
+
+        if error_code not in {
+            "404",
+            "NoSuchKey",
+            "NotFound",
+        }:
+            raise
+
+    # Read the current document registry record.
+    response = table.get_item(
+        Key={"documentId": document_id},
+        ConsistentRead=True,
+    )
+
+    item = response.get("Item")
+
+    if not item:
+        print(
+            "No registry record found for deleted "
+            f"document: {object_key}"
+        )
+        return
+
+    # Delete vectors first. If this fails, retain the
+    # registry record so cleanup can be retried.
+    vector_keys = item.get("vectorKeys", [])
+
+    if vector_keys:
+        delete_vector_keys(vector_keys)
+
+    # Delete the registry record only after vector cleanup.
+    table.delete_item(
+        Key={"documentId": document_id}
+    )
+
+    print(
+        "Document deletion cleanup completed: "
+        f"documentId={document_id}, "
+        f"deletedVectors={len(vector_keys)}"
+    )
+
+# ---------------------------------------------------------
 # LAMBDA HANDLER
 # ---------------------------------------------------------
 
@@ -442,19 +518,43 @@ def lambda_handler(event, context):
     print(f"Received {len(records)} S3 record(s)")
 
     for record in records:
-        bucket_name = record["s3"]["bucket"]["name"]
-        object_key = unquote_plus(
-            record["s3"]["object"]["key"]
-        )
+        event_name = record.get("eventName", "")
 
-        process_document(
-            bucket_name=bucket_name,
-            object_key=object_key,
-        )
+        # Ignore records that aren't object-created or
+        # delete-marker-created events.
+        if event_name.startswith("ObjectCreated:"):
+            bucket_name = record["s3"]["bucket"]["name"]
+
+            object_key = unquote_plus(
+                record["s3"]["object"]["key"]
+            )
+
+            process_document(
+                bucket_name=bucket_name,
+                object_key=object_key,
+            )
+
+        elif event_name == "ObjectRemoved:DeleteMarkerCreated":
+            bucket_name = record["s3"]["bucket"]["name"]
+
+            object_key = unquote_plus(
+                record["s3"]["object"]["key"]
+            )
+
+            delete_document(
+                bucket_name=bucket_name,
+                object_key=object_key,
+            )
+
+        else:
+            print(
+                f"Ignoring unsupported event type: "
+                f"{event_name}"
+            )
 
     return {
         "statusCode": 200,
         "body": json.dumps(
-            {"message": "S3 ingestion event processed"}
+            {"message": "S3 document event processed"}
         ),
     }

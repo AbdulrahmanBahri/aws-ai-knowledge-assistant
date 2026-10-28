@@ -4,12 +4,14 @@
     "question": "How many days per week can staff work remotely?",
     "answerable": true,
     "expected_source": "remote_work_policy.txt",
+    "expected_evidence": "up to two days per week",
     "expected_source_found": true,
+    "expected_evidence_found": true,
     "retrieved_count": 3,
     "matches": [
       {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.23181700706481934,
+        "distance": 0.23179996013641357,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
@@ -17,37 +19,38 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.7943395972251892,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.6035400629043579,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
         "chunk_index": 1
       },
       {
         "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001",
-        "distance": 0.8627915978431702,
+        "distance": 0.8627579212188721,
         "text": "ANNUAL LEAVE POLICY\r\n\r\nEmployees must request annual leave through their manager. This policy does not specify the number of annual leave days, whether unused leave can be carried over, or the rules for sick leave.",
         "source": "annual_leave_policy.txt",
         "document_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4",
         "document_version": 1,
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "health_insurance",
     "question": "Does the company cover employees' health insurance?",
     "answerable": true,
     "expected_source": "employee_benefits_policy.txt",
+    "expected_evidence": "employees receive health insurance through the company",
     "expected_source_found": true,
+    "expected_evidence_found": true,
     "retrieved_count": 3,
     "matches": [
       {
         "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001",
-        "distance": 0.5708732604980469,
+        "distance": 0.5709390640258789,
         "text": "EMPLOYEE BENEFITS POLICY\r\n\r\nEmployees receive health insurance through the company. This policy does not specify whether family members or dependents are covered. It does not describe insurance limits, exclusions, or additional benefits.",
         "source": "employee_benefits_policy.txt",
         "document_id": "0e54b851-c68a-4931-a440-99be36d9d9cd",
@@ -55,37 +58,38 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.9132795929908752,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.9194868803024292,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
         "chunk_index": 1
       },
       {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.9222429990768433,
+        "distance": 0.9222742319107056,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
         "document_version": 1,
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "annual_leave",
-    "question": "Who approves annual leave requests?",
+    "question": "Who should employees submit annual leave requests through?",
     "answerable": true,
     "expected_source": "annual_leave_policy.txt",
+    "expected_evidence": "request annual leave through their manager",
     "expected_source_found": true,
+    "expected_evidence_found": true,
     "retrieved_count": 3,
     "matches": [
       {
         "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001",
-        "distance": 0.2883813977241516,
+        "distance": 0.21771210432052612,
         "text": "ANNUAL LEAVE POLICY\r\n\r\nEmployees must request annual leave through their manager. This policy does not specify the number of annual leave days, whether unused leave can be carried over, or the rules for sick leave.",
         "source": "annual_leave_policy.txt",
         "document_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4",
@@ -93,37 +97,38 @@
         "chunk_index": 1
       },
       {
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.7977511882781982,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
+        "chunk_index": 1
+      },
+      {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.8212751150131226,
+        "distance": 0.8576512932777405,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
         "document_version": 1,
         "chunk_index": 1
-      },
-      {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.8864307403564453,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
-        "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "family_coverage",
     "question": "Are employees' dependents covered by health insurance?",
     "answerable": false,
     "expected_source": null,
+    "expected_evidence": null,
     "expected_source_found": false,
+    "expected_evidence_found": false,
     "retrieved_count": 3,
     "matches": [
       {
         "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001",
-        "distance": 0.3150750398635864,
+        "distance": 0.3150902986526489,
         "text": "EMPLOYEE BENEFITS POLICY\r\n\r\nEmployees receive health insurance through the company. This policy does not specify whether family members or dependents are covered. It does not describe insurance limits, exclusions, or additional benefits.",
         "source": "employee_benefits_policy.txt",
         "document_id": "0e54b851-c68a-4931-a440-99be36d9d9cd",
@@ -132,7 +137,7 @@
       },
       {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.8818906545639038,
+        "distance": 0.8819255828857422,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
@@ -140,28 +145,29 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001",
-        "distance": 0.904653012752533,
-        "text": "ANNUAL LEAVE POLICY\r\n\r\nEmployees must request annual leave through their manager. This policy does not specify the number of annual leave days, whether unused leave can be carried over, or the rules for sick leave.",
-        "source": "annual_leave_policy.txt",
-        "document_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4",
-        "document_version": 1,
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.8854308128356934,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "leave_carryover",
     "question": "Can unused annual leave be carried over?",
     "answerable": false,
     "expected_source": null,
+    "expected_evidence": null,
     "expected_source_found": false,
+    "expected_evidence_found": false,
     "retrieved_count": 3,
     "matches": [
       {
         "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001",
-        "distance": 0.42092806100845337,
+        "distance": 0.42094963788986206,
         "text": "ANNUAL LEAVE POLICY\r\n\r\nEmployees must request annual leave through their manager. This policy does not specify the number of annual leave days, whether unused leave can be carried over, or the rules for sick leave.",
         "source": "annual_leave_policy.txt",
         "document_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4",
@@ -169,37 +175,47 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.9225602746009827,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.9245008230209351,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
         "chunk_index": 1
       },
       {
         "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001",
-        "distance": 0.9251887798309326,
+        "distance": 0.9251582026481628,
         "text": "EMPLOYEE BENEFITS POLICY\r\n\r\nEmployees receive health insurance through the company. This policy does not specify whether family members or dependents are covered. It does not describe insurance limits, exclusions, or additional benefits.",
         "source": "employee_benefits_policy.txt",
         "document_id": "0e54b851-c68a-4931-a440-99be36d9d9cd",
         "document_version": 1,
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "international_remote_work",
     "question": "Can I work remotely from another country?",
     "answerable": false,
-    "expected_source": null,
-    "expected_source_found": false,
+    "expected_source": "international_remote_work_policy.txt",
+    "expected_evidence": "international remote work requires explicit written approval",
+    "expected_source_found": true,
+    "expected_evidence_found": true,
     "retrieved_count": 3,
     "matches": [
       {
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.4742775559425354,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
+        "chunk_index": 1
+      },
+      {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.5200061202049255,
+        "distance": 0.5200951099395752,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
@@ -207,37 +223,38 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.7359127998352051,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
-        "chunk_index": 1
-      },
-      {
         "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001",
-        "distance": 0.8916846513748169,
+        "distance": 0.891677737236023,
         "text": "EMPLOYEE BENEFITS POLICY\r\n\r\nEmployees receive health insurance through the company. This policy does not specify whether family members or dependents are covered. It does not describe insurance limits, exclusions, or additional benefits.",
         "source": "employee_benefits_policy.txt",
         "document_id": "0e54b851-c68a-4931-a440-99be36d9d9cd",
         "document_version": 1,
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": false
+    ]
   },
   {
     "id": "international_remote_work_approval",
     "question": "What approval is required for international remote work?",
     "answerable": true,
-    "expected_source": "day21-lifecycle-test-new.txt",
+    "expected_source": "international_remote_work_policy.txt",
+    "expected_evidence": "international remote work requires explicit written approval",
     "expected_source_found": true,
+    "expected_evidence_found": true,
     "retrieved_count": 3,
     "matches": [
       {
+        "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001",
+        "distance": 0.14043641090393066,
+        "text": "INTERNATIONAL REMOTE WORK POLICY\r\n\r\nInternational remote work requires explicit written approval from the HR department.",
+        "source": "international_remote_work_policy.txt",
+        "document_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb",
+        "document_version": "e8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e",
+        "chunk_index": 1
+      },
+      {
         "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001",
-        "distance": 0.39320188760757446,
+        "distance": 0.39325183629989624,
         "text": "REMOTE WORK POLICY\r\n\r\nEmployees may work remotely up to two days per week with manager approval. Requests for remote work must be approved by the employee's manager. This policy does not specify whether international remote work is permitted or whether exceptions to the two-day limit can be granted.",
         "source": "remote_work_policy.txt",
         "document_id": "60526247-be67-4d7a-a05b-5c60413f22aa",
@@ -245,24 +262,14 @@
         "chunk_index": 1
       },
       {
-        "chunk_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9:v64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6:chunk-0001",
-        "distance": 0.5772666931152344,
-        "text": "Concurrent updates are not fully protected. This version is suitable for controlled testing, but two simultaneous invocations for the same S3 object could still race. A production implementation should serialize updates or use conditional state transitions and S3 object version IDs.\r\nInternational remote work requires explicit written approval from the HR department.",
-        "source": "day21-lifecycle-test-new.txt",
-        "document_id": "18a181bcd27c9e943187eadc2ff75c565353943904264646d4e55af3abea2ed9",
-        "document_version": "64ab64ab655f148151efab5fbc49177aaf41755d6701c6aa9ad3ed0b7dbeabb6",
-        "chunk_index": 1
-      },
-      {
         "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001",
-        "distance": 0.8400470018386841,
+        "distance": 0.8399718403816223,
         "text": "ANNUAL LEAVE POLICY\r\n\r\nEmployees must request annual leave through their manager. This policy does not specify the number of annual leave days, whether unused leave can be carried over, or the rules for sick leave.",
         "source": "annual_leave_policy.txt",
         "document_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4",
         "document_version": 1,
         "chunk_index": 1
       }
-    ],
-    "expected_evidence_found": true
+    ]
   }
 ]
