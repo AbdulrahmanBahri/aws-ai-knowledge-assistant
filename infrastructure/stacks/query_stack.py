@@ -3,8 +3,11 @@ from pathlib import Path
 from aws_cdk import (
     Stack,
     Duration,
+    CfnOutput,
     aws_iam as iam,
     aws_lambda as lambda_,
+    aws_apigatewayv2 as apigwv2,
+    aws_apigatewayv2_integrations as integrations,
 )
 from constructs import Construct
 
@@ -26,7 +29,7 @@ class AIKnowledgeAssistantQueryStack(Stack):
         project_root = Path(__file__).resolve().parents[2]
         lambda_package_path = project_root / "lambda_package"
 
-        # Query Lambda
+        # RAG query Lambda
         query_function = lambda_.Function(
             self,
             "KnowledgeAssistantQueryFunction",
@@ -49,7 +52,7 @@ class AIKnowledgeAssistantQueryStack(Stack):
             ),
         )
 
-        # Allow retrieval from the existing S3 Vectors index.
+        # Allow retrieval from the existing S3 Vectors index
         query_function.add_to_role_policy(
             iam.PolicyStatement(
                 actions=[
@@ -60,29 +63,53 @@ class AIKnowledgeAssistantQueryStack(Stack):
             )
         )
 
-        # Allow Titan Text Embeddings V2 and Nova Lite inference.
+        # Allow Titan embeddings and Nova Lite inference
         query_function.add_to_role_policy(
             iam.PolicyStatement(
                 actions=["bedrock:InvokeModel"],
                 resources=[
-                    # Titan embedding model
                     (
                         f"arn:aws:bedrock:{region}::foundation-model/"
                         "amazon.titan-embed-text-v2:0"
                     ),
-
-                    # EU Nova Lite inference profile
                     (
                         f"arn:aws:bedrock:{region}:{account}:"
                         "inference-profile/eu.amazon.nova-lite-v1:0"
                     ),
-
-                    # Nova Lite foundation model resources
-                    # used by the inference profile.
                     (
                         "arn:aws:bedrock:*::foundation-model/"
                         "amazon.nova-lite-v1:0"
                     ),
                 ],
             )
+        )
+
+        # Create an HTTP API connected to the existing Lambda
+        http_api = apigwv2.HttpApi(
+            self,
+            "KnowledgeAssistantHttpApi",
+            api_name="ai-knowledge-assistant-api",
+            description=(
+                "HTTP API for the AI Knowledge Assistant RAG query service."
+            ),
+        )
+
+        # POST /ask invokes the query Lambda
+        http_api.add_routes(
+            path="/ask",
+            methods=[apigwv2.HttpMethod.POST],
+            integration=integrations.HttpLambdaIntegration(
+                "KnowledgeAssistantQueryIntegration",
+                query_function,
+            ),
+        )
+
+        # Display the endpoint after deployment
+        CfnOutput(
+            self,
+            "QueryApiEndpoint",
+            value=f"{http_api.api_endpoint}/ask",
+            description=(
+                "HTTP endpoint for submitting knowledge assistant questions."
+            ),
         )
