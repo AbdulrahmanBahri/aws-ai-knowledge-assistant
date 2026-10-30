@@ -44,7 +44,7 @@ class AIKnowledgeAssistantQueryStack(Stack):
                 "VECTOR_INDEX_NAME": "knowledge-index",
                 "MODEL_ID": "eu.amazon.nova-lite-v1:0",
                 "TOP_K": "3",
-                "MAX_DISTANCE": "0.35",
+                "MAX_DISTANCE": "0.60",
             },
             description=(
                 "Answers questions using retrieved policy documents, "
