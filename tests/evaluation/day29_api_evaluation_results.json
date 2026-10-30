@@ -1,0 +1,277 @@
+{
+  "evaluated_at_utc": "2026-10-30T15:56:11.154118+00:00",
+  "endpoint": "https://5qk1tknmo0.execute-api.eu-central-1.amazonaws.com/ask",
+  "total_cases": 7,
+  "valid_responses": 7,
+  "successful_http_requests": 7,
+  "expected_source_matches": 5,
+  "expected_source_checks": 5,
+  "correct_refusal_behavior": 7,
+  "refusal_behavior_checks": 7,
+  "response_classification_counts": {
+    "ANSWERED": 5,
+    "REFUSED": 2,
+    "PARTIAL_REFUSAL": 0
+  },
+  "answer_correctness": "Requires manual review against source documents.",
+  "results": [
+    {
+      "id": "remote_work",
+      "question": "How many days per week can staff work remotely?",
+      "expected_answerable": true,
+      "expected_source": "remote_work_policy.txt",
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": true,
+      "response_classification": "ANSWERED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "How many days per week can staff work remotely?",
+        "answer": "Employees may work remotely up to two days per week, subject to approval by their manager.",
+        "sources": [
+          {
+            "document": "remote_work_policy.txt",
+            "distance": 0.2318,
+            "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "Employees may work remotely up to two days per week, subject to approval by their manager.",
+      "sources": [
+        {
+          "document": "remote_work_policy.txt",
+          "distance": 0.2318,
+          "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "health_insurance",
+      "question": "Does the company cover employees' health insurance?",
+      "expected_answerable": true,
+      "expected_source": "employee_benefits_policy.txt",
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": true,
+      "response_classification": "ANSWERED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "Does the company cover employees' health insurance?",
+        "answer": "The company covers employees' health insurance, as stated in the employee benefits policy. However, the policy does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
+        "sources": [
+          {
+            "document": "employee_benefits_policy.txt",
+            "distance": 0.5709,
+            "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "The company covers employees' health insurance, as stated in the employee benefits policy. However, the policy does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
+      "sources": [
+        {
+          "document": "employee_benefits_policy.txt",
+          "distance": 0.5709,
+          "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "annual_leave",
+      "question": "Who should employees submit annual leave requests through?",
+      "expected_answerable": true,
+      "expected_source": "annual_leave_policy.txt",
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": true,
+      "response_classification": "ANSWERED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "Who should employees submit annual leave requests through?",
+        "answer": "Employees must submit annual leave requests through their manager, as stated in the annual leave policy.",
+        "sources": [
+          {
+            "document": "annual_leave_policy.txt",
+            "distance": 0.2177,
+            "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "Employees must submit annual leave requests through their manager, as stated in the annual leave policy.",
+      "sources": [
+        {
+          "document": "annual_leave_policy.txt",
+          "distance": 0.2177,
+          "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "family_coverage",
+      "question": "Are employees' dependents covered by health insurance?",
+      "expected_answerable": false,
+      "expected_source": null,
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": null,
+      "response_classification": "REFUSED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "Are employees' dependents covered by health insurance?",
+        "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if family members or dependents are included.",
+        "sources": [
+          {
+            "document": "employee_benefits_policy.txt",
+            "distance": 0.3151,
+            "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if family members or dependents are included.",
+      "sources": [
+        {
+          "document": "employee_benefits_policy.txt",
+          "distance": 0.3151,
+          "chunk_id": "0e54b851-c68a-4931-a440-99be36d9d9cd:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "leave_carryover",
+      "question": "Can unused annual leave be carried over?",
+      "expected_answerable": false,
+      "expected_source": null,
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": null,
+      "response_classification": "REFUSED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "Can unused annual leave be carried over?",
+        "answer": "I couldn't find enough information in the available documents to answer whether unused annual leave can be carried over.",
+        "sources": [
+          {
+            "document": "annual_leave_policy.txt",
+            "distance": 0.4209,
+            "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "I couldn't find enough information in the available documents to answer whether unused annual leave can be carried over.",
+      "sources": [
+        {
+          "document": "annual_leave_policy.txt",
+          "distance": 0.4209,
+          "chunk_id": "f5ee86e5-bcc3-4475-a1f0-11474bcdabb4:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "international_remote_work",
+      "question": "Can I work remotely from another country?",
+      "expected_answerable": true,
+      "expected_source": "international_remote_work_policy.txt",
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": true,
+      "response_classification": "ANSWERED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "Can I work remotely from another country?",
+        "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the International Remote Work Policy. The Remote Work Policy does not address international remote work or exceptions to the two-day limit.",
+        "sources": [
+          {
+            "document": "international_remote_work_policy.txt",
+            "distance": 0.4743,
+            "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001"
+          },
+          {
+            "document": "remote_work_policy.txt",
+            "distance": 0.5201,
+            "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the International Remote Work Policy. The Remote Work Policy does not address international remote work or exceptions to the two-day limit.",
+      "sources": [
+        {
+          "document": "international_remote_work_policy.txt",
+          "distance": 0.4743,
+          "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001"
+        },
+        {
+          "document": "remote_work_policy.txt",
+          "distance": 0.5201,
+          "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    },
+    {
+      "id": "international_remote_work_approval",
+      "question": "What approval is required for international remote work?",
+      "expected_answerable": true,
+      "expected_source": "international_remote_work_policy.txt",
+      "request_succeeded": true,
+      "response_valid": true,
+      "expected_source_found": true,
+      "response_classification": "ANSWERED",
+      "refusal_behavior_correct": true,
+      "answer_correctness": "MANUAL_REVIEW_REQUIRED",
+      "http_status": 200,
+      "response_body": {
+        "question": "What approval is required for international remote work?",
+        "answer": "International remote work requires explicit written approval from the HR department.",
+        "sources": [
+          {
+            "document": "international_remote_work_policy.txt",
+            "distance": 0.1404,
+            "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001"
+          },
+          {
+            "document": "remote_work_policy.txt",
+            "distance": 0.3933,
+            "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+          }
+        ],
+        "grounded": true
+      },
+      "answer": "International remote work requires explicit written approval from the HR department.",
+      "sources": [
+        {
+          "document": "international_remote_work_policy.txt",
+          "distance": 0.1404,
+          "chunk_id": "103d4fddca0e3864c943f54a15ac8fef43511b72d7df4e888ab50b3104612feb:ve8b311ad73535f350e39b4b3ade244016e4751293db6ad36399a2ac8e77b5e5e:chunk-0001"
+        },
+        {
+          "document": "remote_work_policy.txt",
+          "distance": 0.3933,
+          "chunk_id": "60526247-be67-4d7a-a05b-5c60413f22aa:v1:chunk-0001"
+        }
+      ],
+      "grounded": true
+    }
+  ]
+}
