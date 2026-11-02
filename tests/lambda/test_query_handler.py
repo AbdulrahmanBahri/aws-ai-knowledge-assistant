@@ -79,8 +79,12 @@ class TestQueryHandler(unittest.TestCase):
         })
 
         self.assertEqual(status, 400)
-        self.assertIn("error", body)
+        self.assertEqual(
+            body["error"],
+            "Question must be 2000 characters or fewer.",
+        )
         self.mock_retrieve.assert_not_called()
+        self.mock_generate.assert_not_called()
 
     def test_accepts_question_at_2000_character_limit(self):
         self.mock_retrieve.return_value = []

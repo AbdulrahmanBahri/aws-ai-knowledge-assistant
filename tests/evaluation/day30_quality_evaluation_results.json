@@ -1,5 +1,5 @@
 {
-  "evaluated_at_utc": "2026-11-02T15:10:47.673213+00:00",
+  "evaluated_at_utc": "2026-11-02T15:18:12.250171+00:00",
   "endpoint": "https://5qk1tknmo0.execute-api.eu-central-1.amazonaws.com/ask",
   "total_cases": 7,
   "successful_http_requests": 7,
@@ -72,7 +72,7 @@
       "http_status": 200,
       "response_body": {
         "question": "Does the company cover employees' health insurance?",
-        "answer": "The company covers employees' health insurance, as stated in the employee benefits policy. However, the policy does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
+        "answer": "The company covers employees' health insurance, as per the employee_benefits_policy.txt. However, the document does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
         "sources": [
           {
             "document": "employee_benefits_policy.txt",
@@ -82,7 +82,7 @@
         ],
         "grounded": true
       },
-      "answer": "The company covers employees' health insurance, as stated in the employee benefits policy. However, the policy does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
+      "answer": "The company covers employees' health insurance, as per the employee_benefits_policy.txt. However, the document does not specify whether family members or dependents are covered, nor does it describe insurance limits, exclusions, or additional benefits.",
       "sources": [
         {
           "document": "employee_benefits_policy.txt",
@@ -167,7 +167,7 @@
       "http_status": 200,
       "response_body": {
         "question": "Are employees' dependents covered by health insurance?",
-        "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if family members or dependents are included.",
+        "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if this includes family members or dependents.",
         "sources": [
           {
             "document": "employee_benefits_policy.txt",
@@ -177,7 +177,7 @@
         ],
         "grounded": true
       },
-      "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if family members or dependents are included.",
+      "answer": "I couldn't find enough information in the available documents to answer whether employees' dependents are covered by health insurance. The provided excerpt only mentions that employees receive health insurance but does not specify if this includes family members or dependents.",
       "sources": [
         {
           "document": "employee_benefits_policy.txt",
@@ -194,9 +194,7 @@
         "answerability_behavior_passed": true
       },
       "matched_required_any": [
-        "couldn't find enough information",
-        "not specify if family members",
-        "does not specify if family members"
+        "couldn't find enough information"
       ],
       "missing_required_all": [],
       "matched_forbidden_phrases": [],
@@ -263,7 +261,7 @@
       "http_status": 200,
       "response_body": {
         "question": "Can I work remotely from another country?",
-        "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the International Remote Work Policy. The Remote Work Policy does not address international remote work specifically.",
+        "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the \"INTERNATIONAL REMOTE WORK POLICY.\" The \"REMOTE WORK POLICY\" does not address international remote work or exceptions to the two-day limit.",
         "sources": [
           {
             "document": "international_remote_work_policy.txt",
@@ -278,7 +276,7 @@
         ],
         "grounded": true
       },
-      "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the International Remote Work Policy. The Remote Work Policy does not address international remote work specifically.",
+      "answer": "To work remotely from another country, you need explicit written approval from the HR department, as stated in the \"INTERNATIONAL REMOTE WORK POLICY.\" The \"REMOTE WORK POLICY\" does not address international remote work or exceptions to the two-day limit.",
       "sources": [
         {
           "document": "international_remote_work_policy.txt",
