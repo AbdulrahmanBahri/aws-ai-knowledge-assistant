@@ -8,11 +8,15 @@ from aws_cdk import (
     aws_lambda as lambda_,
     aws_apigatewayv2 as apigwv2,
     aws_apigatewayv2_integrations as integrations,
+    aws_apigatewayv2_authorizers as authorizers,
+    aws_cognito as cognito,
 )
+
 from constructs import Construct
 
 
 class AIKnowledgeAssistantQueryStack(Stack):
+
     def __init__(self, scope: Construct, construct_id: str, **kwargs):
         super().__init__(scope, construct_id, **kwargs)
 
@@ -84,17 +88,52 @@ class AIKnowledgeAssistantQueryStack(Stack):
             )
         )
 
-        # Create an HTTP API connected to the existing Lambda
+        # Cognito User Pool
+        user_pool = cognito.UserPool(
+            self,
+            "KnowledgeAssistantUserPool",
+            user_pool_name="ai-knowledge-assistant-users",
+            sign_in_aliases=cognito.SignInAliases(email=True),
+            self_sign_up_enabled=False,
+            password_policy=cognito.PasswordPolicy(
+                min_length=12,
+                require_lowercase=True,
+                require_uppercase=True,
+                require_digits=True,
+                require_symbols=True,
+            ),
+        )
+
+        # Cognito application client
+        user_pool_client = user_pool.add_client(
+            "KnowledgeAssistantAppClient",
+            user_pool_client_name="ai-knowledge-assistant-client",
+            generate_secret=False,
+            auth_flows=cognito.AuthFlow(
+                user_password=True,
+                user_srp=True,
+            ),
+            prevent_user_existence_errors=True,
+        )
+
+        # JWT authorizer for API Gateway HTTP API
+        jwt_authorizer = authorizers.HttpJwtAuthorizer(
+            "KnowledgeAssistantJwtAuthorizer",
+            jwt_issuer=user_pool.user_pool_provider_url,
+            jwt_audience=[user_pool_client.user_pool_client_id],
+        )
+
+        # Create HTTP API
         http_api = apigwv2.HttpApi(
             self,
             "KnowledgeAssistantHttpApi",
             api_name="ai-knowledge-assistant-api",
             description=(
-                "HTTP API for the AI Knowledge Assistant RAG query service."
+                "Authenticated HTTP API for the AI Knowledge Assistant."
             ),
         )
 
-        # POST /ask invokes the query Lambda
+        # POST /ask requires a valid Cognito JWT
         http_api.add_routes(
             path="/ask",
             methods=[apigwv2.HttpMethod.POST],
@@ -102,14 +141,27 @@ class AIKnowledgeAssistantQueryStack(Stack):
                 "KnowledgeAssistantQueryIntegration",
                 query_function,
             ),
+            authorizer=jwt_authorizer,
         )
 
-        # Display the endpoint after deployment
+        # Outputs
         CfnOutput(
             self,
             "QueryApiEndpoint",
             value=f"{http_api.api_endpoint}/ask",
-            description=(
-                "HTTP endpoint for submitting knowledge assistant questions."
-            ),
+            description="Authenticated API endpoint.",
+        )
+
+        CfnOutput(
+            self,
+            "CognitoUserPoolId",
+            value=user_pool.user_pool_id,
+            description="Cognito User Pool ID.",
+        )
+
+        CfnOutput(
+            self,
+            "CognitoAppClientId",
+            value=user_pool_client.user_pool_client_id,
+            description="Cognito application client ID.",
         )
