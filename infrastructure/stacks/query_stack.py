@@ -10,6 +10,9 @@ from aws_cdk import (
     aws_apigatewayv2_integrations as integrations,
     aws_apigatewayv2_authorizers as authorizers,
     aws_cognito as cognito,
+    aws_logs as logs,
+    aws_cloudwatch as cloudwatch,
+    aws_cloudwatch_actions as cloudwatch_actions,
 )
 
 from constructs import Construct
@@ -43,6 +46,7 @@ class AIKnowledgeAssistantQueryStack(Stack):
             code=lambda_.Code.from_asset(str(lambda_package_path)),
             timeout=Duration.seconds(60),
             memory_size=512,
+            log_retention=logs.RetentionDays.ONE_MONTH,
             environment={
                 "VECTOR_BUCKET_NAME": "ai-knowledge-assistant-vectors",
                 "VECTOR_INDEX_NAME": "knowledge-index",
@@ -164,4 +168,85 @@ class AIKnowledgeAssistantQueryStack(Stack):
             "CognitoAppClientId",
             value=user_pool_client.user_pool_client_id,
             description="Cognito application client ID.",
+        )
+
+        # CloudWatch monitoring dashboard
+        dashboard = cloudwatch.Dashboard(
+            self,
+            "KnowledgeAssistantDashboard",
+            dashboard_name="AI-Knowledge-Assistant",
+        )
+
+        # Lambda operational metrics
+        dashboard.add_widgets(
+            cloudwatch.GraphWidget(
+                title="Lambda Invocations",
+                left=[
+                    query_function.metric_invocations(
+                        period=Duration.minutes(5),
+                    )
+                ],
+                width=12,
+            ),
+            cloudwatch.GraphWidget(
+                title="Lambda Errors",
+                left=[
+                    query_function.metric_errors(
+                        period=Duration.minutes(5),
+                    )
+                ],
+                width=12,
+            ),
+        )
+
+        dashboard.add_widgets(
+            cloudwatch.GraphWidget(
+                title="Lambda Duration",
+                left=[
+                    query_function.metric_duration(
+                        statistic="p95",
+                        period=Duration.minutes(5),
+                    )
+                ],
+                width=12,
+            ),
+            cloudwatch.GraphWidget(
+                title="Lambda Throttles",
+                left=[
+                    query_function.metric_throttles(
+                        period=Duration.minutes(5),
+                    )
+                ],
+                width=12,
+            ),
+        )
+
+        # Alarm when Lambda reports errors
+        error_alarm = cloudwatch.Alarm(
+            self,
+            "KnowledgeAssistantLambdaErrorAlarm",
+            metric=query_function.metric_errors(
+                period=Duration.minutes(5),
+            ),
+            threshold=1,
+            evaluation_periods=1,
+            alarm_description=(
+                "The Knowledge Assistant query Lambda encountered an error."
+            ),
+        )
+
+        # Alarm when Lambda approaches its 60-second timeout
+        duration_alarm = cloudwatch.Alarm(
+            self,
+            "KnowledgeAssistantLambdaDurationAlarm",
+            metric=query_function.metric_duration(
+                statistic="p95",
+                period=Duration.minutes(5),
+            ),
+            threshold=45000,
+            evaluation_periods=2,
+            alarm_description=(
+                "The Knowledge Assistant query Lambda p95 duration "
+                "exceeded 45 seconds."
+            ),
         )

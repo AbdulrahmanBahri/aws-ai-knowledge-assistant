@@ -1,3 +1,4 @@
+import time
 import json
 import logging
 import os
@@ -21,6 +22,16 @@ MAX_DISTANCE = float(os.environ.get("MAX_DISTANCE", "0.35"))
 
 s3vectors = boto3.client("s3vectors", region_name=REGION)
 bedrock = boto3.client("bedrock-runtime", region_name=REGION)
+
+
+def log_event(event_name: str, **details):
+    """Write structured JSON events to CloudWatch Logs."""
+    logger.info(
+        json.dumps({
+            "event": event_name,
+            **details,
+        })
+    )
 
 
 def response(status_code: int, body: dict) -> dict:
@@ -149,6 +160,14 @@ def generate_answer(question: str, chunks: list[dict]) -> str:
 
 def lambda_handler(event, context):
     """Handle a question and return an evidence-grounded answer."""
+    start_time = time.perf_counter()
+    request_id = getattr(context, "aws_request_id", "local")
+
+    log_event(
+        "request_started",
+        request_id=request_id,
+    )
+
     try:
         body = event
 
@@ -160,7 +179,10 @@ def lambda_handler(event, context):
                 body = json.loads(body) if body else {}
 
         if not isinstance(body, dict):
-            return response(400, {"error": "Request body must be a JSON object."})
+            return response(
+                400,
+                {"error": "Request body must be a JSON object."},
+            )
 
         question = body.get("question")
 
@@ -181,13 +203,25 @@ def lambda_handler(event, context):
         chunks = retrieve_chunks(question)
 
         # Refuse if retrieval found no usable evidence or all matches
-        # are too distant. The threshold will be validated during testing.
+        # are too distant.
         relevant_chunks = [
             chunk for chunk in chunks
             if chunk["distance"] <= MAX_DISTANCE
         ]
 
         if not relevant_chunks:
+            log_event(
+                "request_completed",
+                request_id=request_id,
+                grounded=False,
+                retrieved_chunks=len(chunks),
+                relevant_chunks=0,
+                duration_ms=round(
+                    (time.perf_counter() - start_time) * 1000,
+                    2,
+                ),
+            )
+
             return response(
                 200,
                 {
@@ -203,6 +237,20 @@ def lambda_handler(event, context):
 
         answer = generate_answer(question, relevant_chunks)
 
+        log_event(
+            "answer_generated",
+            request_id=request_id,
+            grounded=True,
+            relevant_chunks=len(relevant_chunks),
+            source_count=len({
+                chunk["source"] for chunk in relevant_chunks
+            }),
+            duration_ms=round(
+                (time.perf_counter() - start_time) * 1000,
+                2,
+            ),
+        )
+
         sources = []
         seen = set()
 
@@ -213,6 +261,7 @@ def lambda_handler(event, context):
                 continue
 
             seen.add(source)
+
             sources.append(
                 {
                     "document": source,
@@ -235,15 +284,43 @@ def lambda_handler(event, context):
         logger.warning("Invalid query request: %s", str(exc))
         return response(400, {"error": "Invalid request."})
 
-    except ClientError:
-        logger.exception("AWS service request failed.")
+    except ClientError as exc:
+        logger.exception(
+            "AWS service request failed. request_id=%s",
+            request_id,
+        )
+
+        log_event(
+            "request_failed",
+            request_id=request_id,
+            error_type=type(exc).__name__,
+            duration_ms=round(
+                (time.perf_counter() - start_time) * 1000,
+                2,
+            ),
+        )
+
         return response(
             500,
             {"error": "A required AWS service request failed. Check Lambda logs."},
         )
 
-    except Exception:
-        logger.exception("Unexpected query handler error.")
+    except Exception as exc:
+        logger.exception(
+            "Unexpected query handler error. request_id=%s",
+            request_id,
+        )
+
+        log_event(
+            "request_failed",
+            request_id=request_id,
+            error_type=type(exc).__name__,
+            duration_ms=round(
+                (time.perf_counter() - start_time) * 1000,
+                2,
+            ),
+        )
+
         return response(
             500,
             {"error": "An unexpected error occurred. Check Lambda logs."},
