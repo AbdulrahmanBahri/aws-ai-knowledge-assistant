@@ -1,9 +1,50 @@
-*.swp
-__pycache__
-.pytest_cache
-.venv
-*.egg-info
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
 
-# CDK asset staging directory
-.cdk.staging
-cdk.out
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Testing and coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# AWS CDK
+cdk.out/
+.cdk.staging/
+*.swp
+
+# AWS SAM
+.aws-sam/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
