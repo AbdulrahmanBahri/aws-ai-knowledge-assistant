@@ -266,7 +266,7 @@ Potential enhancements include:
 
 **Abdulrahman Bahri**
 
-IT Specialist | AWS | Salesforce | Cloud Engineering
+Certified AWS Solutions Acrvitect | Salesforce Developer | Cloud Engineering
 
 GitHub: https://github.com/AbdulrahmanBahri
 
