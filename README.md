@@ -1,58 +1,275 @@
+# AI Knowledge Assistant on AWS
 
-# Welcome to your CDK Python project!
+A serverless Retrieval-Augmented Generation (RAG) application built on AWS that allows users to ask natural-language questions about uploaded company policy documents.
 
-This is a blank project for CDK development with Python.
+The application processes documents, converts their content into vector embeddings, retrieves relevant information using semantic search, and generates evidence-grounded answers using Amazon Bedrock.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+This project was built to explore production-oriented AWS architecture, serverless application development, generative AI, document processing, authentication, monitoring, and automated testing.
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+## Architecture
 
-To manually create a virtualenv on MacOS and Linux:
+### High-Level Workflow
 
+**Document ingestion**
+
+1. A document is uploaded to Amazon S3.
+2. An S3 event triggers the ingestion AWS Lambda function.
+3. The function extracts text from the uploaded `.txt` file.
+4. The text is divided into overlapping chunks.
+5. Amazon Titan Text Embeddings V2 generates 1,024-dimensional embeddings.
+6. The embeddings and associated metadata are stored in Amazon S3 Vectors.
+7. Amazon DynamoDB tracks document processing status and metadata.
+
+**Question answering**
+
+1. A user authenticates through Amazon Cognito.
+2. The user submits a question to the API Gateway HTTP API.
+3. API Gateway validates the Cognito JWT.
+4. The query Lambda generates an embedding for the question.
+5. Amazon S3 Vectors retrieves semantically similar document chunks.
+6. Retrieved evidence is passed to Amazon Nova Lite through Amazon Bedrock.
+7. The application returns the generated answer, source information, and grounding status.
+
+## AWS Services
+
+| Service                         | Purpose                                    |
+| ------------------------------- | ------------------------------------------ |
+| Amazon S3                       | Document storage                           |
+| AWS Lambda                      | Document ingestion and question processing |
+| Amazon S3 Vectors               | Vector storage and semantic retrieval      |
+| Amazon DynamoDB                 | Document registry and processing metadata  |
+| Amazon Bedrock                  | Embeddings and generative AI inference     |
+| Amazon Titan Text Embeddings V2 | Text embeddings                            |
+| Amazon Nova Lite                | Answer generation                          |
+| Amazon API Gateway              | HTTP API endpoint                          |
+| Amazon Cognito                  | User authentication and JWT authorization  |
+| Amazon CloudWatch               | Logs, metrics, dashboards, and alarms      |
+| AWS CDK                         | Infrastructure as Code                     |
+| GitHub Actions                  | Automated repository checks                |
+
+## Technology Stack
+
+* Python
+* AWS CDK
+* Boto3
+* Amazon Bedrock
+* Retrieval-Augmented Generation (RAG)
+* Vector embeddings
+* Semantic search
+* Serverless architecture
+* Infrastructure as Code
+* GitHub Actions
+
+## Key Features
+
+* Event-driven document ingestion.
+* Text chunking with configurable overlap.
+* 1,024-dimensional semantic embeddings.
+* Vector similarity search.
+* Evidence-grounded AI responses.
+* Source attribution in API responses.
+* Refusal behavior when sufficient evidence is unavailable.
+* Cognito-based authentication.
+* Structured JSON logging.
+* CloudWatch operational dashboard.
+* Lambda error and duration alarms.
+* Automated evaluation and regression tests.
+
+## Project Structure
+
+```text
+aws-ai-knowledge-assistant/
+│
+├── infrastructure/
+│   └── stacks/
+│       ├── storage_stack.py
+│       └── query_stack.py
+│
+├── lambda_package/
+│   ├── handler.py
+│   ├── query_handler.py
+│   ├── embeddings.py
+│   └── chunking.py
+│
+├── experiments/
+│   └── day30_evaluate_quality.py
+│
+├── tests/
+│   └── evaluation/
+│
+├── app.py
+├── cdk.json
+├── requirements.txt
+└── README.md
 ```
-$ python -m venv .venv
+
+## Deployment
+
+### Prerequisites
+
+* Python 3.12 or later.
+* Node.js and AWS CDK CLI.
+* AWS CLI configured with appropriate credentials.
+* An AWS account.
+* Access to the required Amazon Bedrock models in the deployment region.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/AbdulrahmanBahri/aws-ai-knowledge-assistant.git
+cd aws-ai-knowledge-assistant
 ```
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+### 2. Create and activate a virtual environment
 
-```
-$ source .venv/bin/activate
-```
+Windows PowerShell:
 
-If you are a Windows platform, you would activate the virtualenv like this:
-
-```
-% .venv\Scripts\activate.bat
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 
-Once the virtualenv is activated, you can install the required dependencies.
+### 3. Install dependencies
 
-```
-$ pip install -r requirements.txt
-```
-
-At this point you can now synthesize the CloudFormation template for this code.
-
-```
-$ cdk synth
+```powershell
+python -m pip install -r requirements.txt
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `requirements.txt` file and rerun the `python -m pip install -r requirements.txt`
-command.
+### 4. Bootstrap AWS CDK
 
-## Useful commands
+```powershell
+cdk bootstrap aws://YOUR_ACCOUNT_ID/eu-central-1
+```
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+### 5. Deploy the infrastructure
 
-Enjoy!
+```powershell
+cdk deploy AIKnowledgeAssistantStorageStack
+cdk deploy AIKnowledgeAssistantQueryStack
+```
+
+The stacks provision the storage, ingestion, query, authentication, API, and monitoring resources.
+
+### 6. Configure authentication
+
+Use the Cognito User Pool and App Client outputs generated by the query stack.
+
+Create an application user and configure their permanent password using Amazon Cognito.
+
+The API requires a valid Cognito JWT.
+
+### 7. Upload a document
+
+Upload a `.txt` company policy document to the deployed document bucket.
+
+The S3 event notification automatically triggers document ingestion.
+
+### 8. Ask a question
+
+Send a POST request to the deployed `/ask` endpoint with a valid Cognito ID token.
+
+Example request body:
+
+```json
+{
+  "question": "How many days can employees work remotely?"
+}
+```
+
+Example response structure:
+
+```json
+{
+  "question": "How many days can employees work remotely?",
+  "answer": "Employees may work remotely up to two days per week with manager approval.",
+  "sources": [
+    {
+      "document": "remote_work_policy.txt"
+    }
+  ],
+  "grounded": true
+}
+```
+
+The response is illustrative; actual answers depend on the uploaded documents and retrieval results.
+
+## Evaluation and Testing
+
+The project includes unit tests and a live API evaluation script.
+
+The evaluation covers:
+
+* Expected policy information.
+* Source retrieval.
+* Answer structure.
+* Unsupported questions.
+* Refusal behavior.
+* Potentially incorrect claims.
+
+Run the unit tests:
+
+```powershell
+python -m unittest discover -s tests/evaluation -p "test_*.py" -v
+```
+
+Run the live API evaluation:
+
+```powershell
+python experiments/day30_evaluate_quality.py
+```
+
+The evaluation uses deterministic phrase-based checks. Passing these checks is not proof of factual correctness; manual review remains necessary.
+
+## Monitoring
+
+A CloudWatch dashboard named `AI-Knowledge-Assistant` provides visibility into:
+
+* Lambda invocations.
+* Lambda errors.
+* Lambda execution duration.
+* Lambda throttles.
+
+CloudWatch alarms are configured for Lambda errors and elevated execution duration.
+
+Structured JSON logs provide additional information about request processing and retrieval results.
+
+## Security Considerations
+
+* Amazon Cognito protects the API using JWT authorization.
+* S3 public access is blocked.
+* S3 enforces SSL and uses server-side encryption.
+* DynamoDB uses AWS-managed encryption.
+* Lambda functions use IAM permissions for required AWS operations.
+* The application does not require public access to its document bucket.
+
+## Current Scope and Limitations
+
+* Document ingestion currently supports `.txt` files.
+* Answer quality depends on the quality and coverage of uploaded documents.
+* The evaluation framework uses deterministic checks and requires human review.
+* The project does not currently include a dedicated frontend application.
+* Production deployment would require additional work around operational hardening, cost controls, and broader security validation.
+
+## Future Improvements
+
+Potential enhancements include:
+
+* PDF and DOCX document support.
+* A web-based user interface.
+* Conversation history.
+* More advanced retrieval and reranking.
+* Improved evaluation using human-reviewed datasets.
+* Fine-grained user access and document permissions.
+* Additional observability and cost monitoring.
+
+## Author
+
+**Abdulrahman Bahri**
+
+IT Specialist | AWS | Salesforce | Cloud Engineering
+
+GitHub: https://github.com/AbdulrahmanBahri
+
+---
+
+*Built as a hands-on project to develop practical experience with AWS serverless architecture, generative AI, and production-oriented cloud engineering.*
